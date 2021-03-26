@@ -70,7 +70,7 @@ unsigned char * roomconv_tiled_json(int * size, const char * json_file) {
     }
 
     {
-        // Get the sprite name from the tiled map properties
+        /* Get the sprite name from the tiled map properties */
         const cJSON * props;
         props = cJSON_GetObjectItemCaseSensitive(json_file, "properties");
         roomconv_tiled_json_get_prop(&prop, props, "sprite_name");
@@ -80,7 +80,7 @@ unsigned char * roomconv_tiled_json(int * size, const char * json_file) {
         else
             printf("Did not find a valid map sprite of name!\n");
 
-        // Get the map title from the tiled map properties
+        /* Get the map title from the tiled map properties */
         roomconv_tiled_json_get_prop(&prop, props, "title");
         strcpy(title, "super city");
         title[NAME_SIZE + 1] = '\0';
@@ -89,7 +89,7 @@ unsigned char * roomconv_tiled_json(int * size, const char * json_file) {
         else
             printf("No valid map title, using default.\n");
         
-        // Get the maps outside block
+        /* Get the maps outside block */
         roomconv_tiled_json_get_prop(&prop, props, "outside_block");
         outside_block = 0;
         if (prop.type == TILEDPROP_INT)
@@ -99,7 +99,7 @@ unsigned char * roomconv_tiled_json(int * size, const char * json_file) {
     }
 
     {
-        // Get misc map fields
+        /* Get misc map fields */
         const cJSON * map_field;
         map_field = cJSON_GetObjectItemCaseSensitive(json_file, "width");
         width = 0;
@@ -116,7 +116,7 @@ unsigned char * roomconv_tiled_json(int * size, const char * json_file) {
     }
 
     {
-        // Get the number of normal spawns and player spawns
+        /* Get the number of normal spawns and player spawns */
         const cJSON * layer, * objects;
         layer = roomconv_tiled_json_find_layer(json_file, "normal_spawns");
         num_spawns = 0;
@@ -142,7 +142,7 @@ unsigned char * roomconv_tiled_json(int * size, const char * json_file) {
             printf("Map has no player spawns!\n");
     }
 
-    // Initialize the new buffer for the data
+    /* Initialize the new buffer for the data */
     bin = malloc(NAME_SIZE + ROOM_TITLE_SIZE + 20 + width * height + ROOM_SPAWN_SIZE * num_spawns + ROOM_PLAYER_SIZE * num_player_spawns);
     memcpy(bin, sprite_name, NAME_SIZE);
     memcpy(bin + NAME_SIZE, title, ROOM_TITLE_SIZE);
@@ -155,7 +155,7 @@ unsigned char * roomconv_tiled_json(int * size, const char * json_file) {
     base += 20;
 
     {
-        // Get the room tile data
+        /* Get the room tile data */
         int i;
         const cJSON * layer, * data, * block;
         layer = roomconv_tiled_json_find_layer(json, "blocks");
@@ -179,7 +179,7 @@ unsigned char * roomconv_tiled_json(int * size, const char * json_file) {
     base += width * height;
 
     {
-        // Get the room normal spawns data
+        /* Get the room normal spawns data */
         int i;
         const cJSON * layer, * objects, * spawn;
         const cJSON * spawn_props, * spawn_pos;
@@ -226,7 +226,7 @@ unsigned char * roomconv_tiled_json(int * size, const char * json_file) {
     base += num_spawns * ROOM_SPAWN_SIZE;
 
     {
-        // Get the room player spawns data
+        /* Get the room player spawns data */
         int i;
         const cJSON * layer, * objects, * spawn;
         const cJSON * spawn_props, * spawn_pos;
